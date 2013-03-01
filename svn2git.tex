@@ -1,28 +1,40 @@
 \documentclass[12pt, spanish, oneside, onecolumn, a4paper]{article}
 \usepackage[spanish,activeacute]{babel}
-\usepackage[latin1,utf8]{inputenc} \usepackage{times}
-\usepackage[T1]{fontenc} \usefont{T1}{arial}{m}{n} \oddsidemargin 0in
-\textwidth 6.75in \topmargin 0in \textheight 8.5in
+\usepackage[latin1,utf8]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usefont{T1}{arial}{m}{n}
+\oddsidemargin 0in
+\textwidth 6.75in
+\topmargin 0in
+\textheight 8.5in
 % \parindent 0em
 \parskip 2ex
 
-\usepackage{fancyheadings} \headheight 35pt \usepackage{graphicx}
+\usepackage{fancyheadings}
+\headheight 35pt
+\usepackage{graphicx}
 \usepackage[ps2pdf, colorlinks=true, urlcolor=blue, filecolor=green,
 linkcolor=red, pdfkeywords={}, pagebackref, pdfpagemode=None,
-bookmarksopen=true]{hyperref} \usepackage{tabularx}
+bookmarksopen=true]{hyperref}
+
+\usepackage{tabularx}
 \usepackage{colortbl}
 
-\usepackage{tabulary} \setlength\tymin{699pt} \setlength\tymax{700pt}
+\usepackage{tabulary}
+\setlength\tymin{699pt}
+\setlength\tymax{700pt}
 \setlength\doublerulesep{0.5px}
 
-\usepackage{epic} \makeatletter
+\usepackage{epic}
+\makeatletter
 
 \renewcommand{\contentsname}{Indice}
 \renewcommand{\appendixname}{Apéndice}
 \renewcommand{\figurename}{Figura}
 \renewcommand{\listfigurename}{Indice de figuras}
-\renewcommand{\tablename}{Tabla} \renewcommand{\listtablename}{Indice
-  de tablas}
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\listtablename}{Indice de tablas}
 
 % un comando
 \def\comando#1{
@@ -45,6 +57,9 @@ bookmarksopen=true]{hyperref} \usepackage{tabularx}
 }
 % end comandos
 
+\usepackage[xindy,toc]{glossaries}
+\makeglossaries
+
 \begin{document}
 % \pagestyle{fancy}
 % \lhead{\includegraphics[width=3cm,keepaspectratio=true]{uci-.eps}
@@ -53,17 +68,74 @@ bookmarksopen=true]{hyperref} \usepackage{tabularx}
 % Reparto Torrens. Boyeros. Ciudad Habana.  Teléfono (53 7) 8372519
 % e-mail: decano.f10@uci.cu }\newline \thepage}
 
-\title{ Notas de la primera reunión } \date{ \today\ } \author{
-  Anielkis Herrera }
+\title{ Git }
+\date{ \today\ }
+\author{ Ing. Anielkis Herrera }
 
 \pagenumbering{roman}
 \maketitle
 
 \begin{abstract}
-
+Guía de uso de la herramienta Git para control de versiones
 \end{abstract}
 
-\newpage \pagenumbering{arabic}
+\newpage
+\pagenumbering{arabic}
 
+
+\chapter{Introducción a Git}
+\label{chap:intro}
+
+
+\newacronym[longplural=Sistemas de Control de Versiones]{scv}{SCV}{Sistema de Control de Versiones}
+
+%\newglossaryentry{scv}
+%{
+%  description={Sistema de Control de Versiones, sistemas utilizados para gestionar versionado en el desarrollo de software o documentación}
+%}
+
+\newglossaryentry{Linux}
+{
+  description={es un término genérico que se refiere a la familia de sistemas operativos ``parecidos a Unix'' que utilizan el núcleo Linux}
+}
+
+Git es un sistema de control de versiones distribuído, desarrollado como sistema de software libre y diseñado para manejar desde proyectos pequeños hasta muy grandes, con gran rapidez y eficiencia.
+
+Git es fácil de aprender y tiene una huella pequeña en el sistema, con un rendimiento increíblemente rápido. Supera a otras herramientas de control de versiones como Subversion , CVS , Perforce y ClearCase con características como trabajo con ramas locales, áreas de ``puesta en escena'' muy convenientes, y varios estilos de flujo de trabajo.
+
+
+\section{Acerca de Git}
+\label{sec:aboutgit}
+
+\subsection{Creación y fusión de ramas}
+\label{sec:branchingandmerging}
+
+La función de Git que realmente lo hace destacar de entre la mayoría de los otros SCV los demás SMC por ahí es su modelo de
+ramificación. Git permite y alienta a que tiene varias ramas locales
+que pueden ser completamente independientes el uno del otro. La
+creación, fusión y supresión de las líneas de desarrollo toma unos
+segundos
+
+Branching and Merging
+
+The Git feature that really makes it stand apart from nearly every other SCM out there is its branching model.
+
+Git allows and encourages you to have multiple local branches that can be entirely independent of each other. The creation, merging, and deletion of those lines of development takes seconds.
+
+This means that you can do things like:
+
+    Frictionless Context Switching. Create a branch to try out an idea, commit a few times, switch back to where you branched from, apply a patch, switch back to where you are experimenting, and merge it in.
+    Role-Based Codelines. Have a branch that always contains only what goes to production, another that you merge work into for testing, and several smaller ones for day to day work.
+    Feature Based Workflow. Create new branches for each new feature you're working on so you can seamlessly switch back and forth between them, then delete each branch when that feature gets merged into your main line.
+    Disposable Experimentation. Create a branch to experiment in, realize it's not going to work, and just delete it - abandoning the work—with nobody else ever seeing it (even if you've pushed other branches in the meantime).
+
+Branches
+
+Notably, when you push to a remote repository, you do not have to push all of your branches. You can choose to share just one of your branches, a few of them, or all of them. This tends to free people to try new ideas without worrying about having to plan how and when they are going to merge it in or share it with others.
+
+There are ways to accomplish some of this with other systems, but the work involved is much more difficult and error-prone. Git makes this process incredibly easy and it changes the way most developers work when they learn it. 
+
+
+\glsaddall
 
 \end{document}
