@@ -1,4 +1,4 @@
-\documentclass[12pt, spanish, oneside, onecolumn, a4paper]{article}
+\documentclass[12pt, spanish, oneside, onecolumn, a4paper]{report}
 \usepackage[spanish,activeacute]{babel}
 \usepackage[latin1,utf8]{inputenc}
 \usepackage{times}
@@ -14,8 +14,8 @@
 \usepackage{fancyheadings}
 \headheight 35pt
 \usepackage{graphicx}
-\usepackage[ps2pdf, colorlinks=true, urlcolor=blue, filecolor=green,
-linkcolor=red, pdfkeywords={}, pagebackref, pdfpagemode=None,
+\usepackage[colorlinks=true, urlcolor=blue, filecolor=green,
+linkcolor=red, pdfkeywords={}, pagebackref, pdfpagemode=UseOutlines,
 bookmarksopen=true]{hyperref}
 
 \usepackage{tabularx}
@@ -25,6 +25,8 @@ bookmarksopen=true]{hyperref}
 \setlength\tymin{699pt}
 \setlength\tymax{700pt}
 \setlength\doublerulesep{0.5px}
+
+\graphicspath{{./img/}}
 
 \usepackage{epic}
 \makeatletter
@@ -57,14 +59,64 @@ bookmarksopen=true]{hyperref}
 }
 % end comandos
 
-\usepackage[xindy,toc]{glossaries}
+\usepackage[toc]{glossaries}
 \makeglossaries
 
+%\begin{titlepage}
+%\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+%\center % Center everything on the page
+%
+%%\textsc{\LARGE University Name}\\[1.5cm] % Name of your university/college
+%%\textsc{\Large Major Heading}\\[0.5cm] % Major heading such as course name
+%%\textsc{\large Minor Heading}\\[0.5cm] % Minor heading such as course title
+%\HRule \\[0.4cm]
+%{ \huge \bfseries Git}\\[0.4cm] % Title of your document
+%\HRule \\[1.5cm]
+%\begin{minipage}{0.4\textwidth}
+%\begin{flushleft} \large
+%\emph{Author:}\\
+%Ing. Anielkis \textsc{Herrera} % Your name
+%\end{flushleft}
+%\end{minipage}
+%~
+%\begin{minipage}{0.4\textwidth}
+%\begin{flushright} \large
+%%\emph{Supervisor:} \\
+%%Dr. James \textsc{Smith} % Supervisor's Name
+%\end{flushright}
+%\end{minipage}\\[4cm]
+%{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
+%%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
+%\vfill % Fill the rest of the page with whitespace
+%\end{titlepage}
+
+\makeatletter
+\def\maketitle{%
+  \null
+  \thispagestyle{empty}%
+  \vfill
+  \begin{center}\leavevmode
+    \normalfont
+    \includegraphics{logo.png}\\[1cm]
+%    {\LARGE \@title\par}%
+    \vskip 1cm
+    {\Large \@author\par}%
+    \vskip 1cm
+    {\Large \@date\par}%
+  \end{center}%
+  \vfill
+  \null
+  \cleardoublepage
+  }
+\makeatother
+
+
 \begin{document}
-% \pagestyle{fancy}
-% \lhead{\includegraphics[width=3cm,keepaspectratio=true]{uci-.eps}
-% \includegraphics[width=3cm,keepaspectratio=true]{emblema-2008.eps}}
-% \cfoot{ \itshape{Carretera a San Antonio de los Baños. Km 5 {1/2}
+\pagestyle{fancy}
+\lhead{\includegraphics[width=3cm,keepaspectratio=true]{logo.png}
+%\includegraphics[width=3cm,keepaspectratio=true]{emblema-2008.eps}
+}
+%\cfoot{ \itshape{Carretera a San Antonio de los Baños. Km 5 {1/2}
 % Reparto Torrens. Boyeros. Ciudad Habana.  Teléfono (53 7) 8372519
 % e-mail: decano.f10@uci.cu }\newline \thepage}
 
@@ -75,9 +127,9 @@ bookmarksopen=true]{hyperref}
 \pagenumbering{roman}
 \maketitle
 
-\begin{abstract}
-Guía de uso de la herramienta Git para control de versiones
-\end{abstract}
+%\begin{abstract}
+%Guía de uso de la herramienta Git para control de versiones
+%\end{abstract}
 
 \newpage
 \pagenumbering{arabic}
@@ -94,14 +146,14 @@ Guía de uso de la herramienta Git para control de versiones
 %  description={Sistema de Control de Versiones, sistemas utilizados para gestionar versionado en el desarrollo de software o documentación}
 %}
 
-\newglossaryentry{Linux}
-{
-  description={es un término genérico que se refiere a la familia de sistemas operativos ``parecidos a Unix'' que utilizan el núcleo Linux}
-}
+%\newglossaryentry{Linux}
+%{
+%  description={es un término genérico que se refiere a la familia de sistemas operativos ``parecidos a Unix'' que utilizan el núcleo Linux}
+%}
 
 Git es un sistema de control de versiones distribuído, desarrollado como sistema de software libre y diseñado para manejar desde proyectos pequeños hasta muy grandes, con gran rapidez y eficiencia.
 
-Git es fácil de aprender y tiene una huella pequeña en el sistema, con un rendimiento increíblemente rápido. Supera a otras herramientas de control de versiones como Subversion , CVS , Perforce y ClearCase con características como trabajo con ramas locales, áreas de ``puesta en escena'' muy convenientes, y varios estilos de flujo de trabajo.
+Git es fácil de aprender y tiene una huella pequeña en el sistema, con un rendimiento increíblemente rápido. Supera a otros \glspl{scv} como Subversion , CVS , Perforce y ClearCase con características como trabajo con ramas locales, áreas de ``puesta en escena'' muy convenientes, y varios estilos de flujo de trabajo.
 
 
 \section{Acerca de Git}
@@ -137,5 +189,6 @@ There are ways to accomplish some of this with other systems, but the work invol
 
 
 \glsaddall
+\printglossaries
 
 \end{document}
