@@ -162,26 +162,20 @@ Git es fácil de aprender y tiene una huella pequeña en el sistema, con un rend
 \subsection{Creación y fusión de ramas}
 \label{sec:branchingandmerging}
 
-La función de Git que realmente lo hace destacar de entre la mayoría de los otros SCV los demás SMC por ahí es su modelo de
-ramificación. Git permite y alienta a que tiene varias ramas locales
-que pueden ser completamente independientes el uno del otro. La
-creación, fusión y supresión de las líneas de desarrollo toma unos
-segundos
+La función de Git que realmente lo hace destacar de entre la mayoría de los \gls{scv} es su modelo de ramificación. Git permite y alienta a tener varias ramas locales que pueden ser completamente independientes una de otra. La creación, fusión y supresión de las líneas de desarrollo toma solo unos instantes de segundo.
 
-Branching and Merging
+Esto significa que se pueden hacer cosas como:
+\begin{description}
+\item [Cambio de contexto sin fricción:] crear una rama para probar una idea,
+adicionar contenido al historial un par de veces, volver a la rama desde donde se ramificó, aplicar un
+parche, cambiar de nuevo a donde se está experimentando, y fusionar las ramas para adicionar los cambios del experimento a la rama original.
+\item [Líneas de desarrollo separadas en roles:] tener una rama que siempre contiene sólo lo que va a la producción, otra a dónde se fusionan el código en que se ha trabajado, para probarlo, y varios más pequeños para el día a día.
+\item [Función de flujo de base:] crear nuevas ramas para cada nueva característica en que se esté trabajando por lo que perfectamente puede alternar entre ellas, y a continuación eliminar cada rama cuando esta característica se fusione en la línea principal.
+\item [Experimentación desechable:] crear una rama en la que experimentar , darse cuenta de que no va funcionar el experimento, y simplemente eliminarla - el abandono de un trabajo fallido que nadie más va a ver.
+\end{description}
 
-The Git feature that really makes it stand apart from nearly every other SCM out there is its branching model.
+\includegraphics[width=5cm,keepaspectratio=true]{branches.png}
 
-Git allows and encourages you to have multiple local branches that can be entirely independent of each other. The creation, merging, and deletion of those lines of development takes seconds.
-
-This means that you can do things like:
-
-    Frictionless Context Switching. Create a branch to try out an idea, commit a few times, switch back to where you branched from, apply a patch, switch back to where you are experimenting, and merge it in.
-    Role-Based Codelines. Have a branch that always contains only what goes to production, another that you merge work into for testing, and several smaller ones for day to day work.
-    Feature Based Workflow. Create new branches for each new feature you're working on so you can seamlessly switch back and forth between them, then delete each branch when that feature gets merged into your main line.
-    Disposable Experimentation. Create a branch to experiment in, realize it's not going to work, and just delete it - abandoning the work—with nobody else ever seeing it (even if you've pushed other branches in the meantime).
-
-Branches
 
 Notably, when you push to a remote repository, you do not have to push all of your branches. You can choose to share just one of your branches, a few of them, or all of them. This tends to free people to try new ideas without worrying about having to plan how and when they are going to merge it in or share it with others.
 
