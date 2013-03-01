@@ -20,6 +20,7 @@ bookmarksopen=true]{hyperref}
 
 \usepackage{tabularx}
 \usepackage{colortbl}
+\usepackage{wrapfig}
 
 \usepackage{tabulary}
 \setlength\tymin{699pt}
@@ -59,7 +60,7 @@ bookmarksopen=true]{hyperref}
 }
 % end comandos
 
-\usepackage[toc]{glossaries}
+\usepackage[toc,nonumberlist]{glossaries}
 \makeglossaries
 
 %\begin{titlepage}
@@ -140,6 +141,7 @@ bookmarksopen=true]{hyperref}
 
 
 \newacronym[longplural=Sistemas de Control de Versiones]{scv}{SCV}{Sistema de Control de Versiones}
+\newacronym[longplural=Sistemas de Control de Versiones Distribuido]{scvd}{SCVD}{Sistema de Control de Versiones Distribuido}
 
 %\newglossaryentry{scv}
 %{
@@ -151,7 +153,7 @@ bookmarksopen=true]{hyperref}
 %  description={es un término genérico que se refiere a la familia de sistemas operativos ``parecidos a Unix'' que utilizan el núcleo Linux}
 %}
 
-Git es un sistema de control de versiones distribuído, desarrollado como sistema de software libre y diseñado para manejar desde proyectos pequeños hasta muy grandes, con gran rapidez y eficiencia.
+Git es un \gls{scvd}, desarrollado como sistema de software libre y diseñado para manejar desde proyectos pequeños hasta muy grandes, con gran rapidez y eficiencia.
 
 Git es fácil de aprender y tiene una huella pequeña en el sistema, con un rendimiento increíblemente rápido. Supera a otros \glspl{scv} como Subversion , CVS , Perforce y ClearCase con características como trabajo con ramas locales, áreas de ``puesta en escena'' muy convenientes, y varios estilos de flujo de trabajo.
 
@@ -174,12 +176,95 @@ parche, cambiar de nuevo a donde se está experimentando, y fusionar las ramas p
 \item [Experimentación desechable:] crear una rama en la que experimentar , darse cuenta de que no va funcionar el experimento, y simplemente eliminarla - el abandono de un trabajo fallido que nadie más va a ver.
 \end{description}
 
-\includegraphics[width=5cm,keepaspectratio=true]{branches.png}
+\begin{figure}[hb]
+  \caption{Ramas en Git.}
+  \centering
+  \includegraphics[width=.7\textwidth,keepaspectratio=true]{branches.png}
+\end{figure}
+
+En particular, cuando se ``empuja'' (\emph{\textbf{push}}) a un repositorio remoto, no es necesario hacerlo a todas las ramas. Se puede elegir compartir sólo una de las ramas, unas pocas de ellas o todas ellas. Esto permite probar nuevas ideas sin preocuparse de tener que planificar cómo y cuándo se va a fusionar o compartirlas con otros. Como se podrá ver posteriormente, se puede compartir la rama con otro desarrollador, con el que se puede trabajar en esa idea, sin necesidad de adicionarla al repositorio central.
+
+Hay maneras de lograr algo de esto con otros sistemas, pero la obra en cuestión es mucho más difícil y propensa a errores. Git hace este proceso muy fácil y esto cambia la forma en la mayoría de los desarrolladores trabajan cuando lo aprenden.
 
 
-Notably, when you push to a remote repository, you do not have to push all of your branches. You can choose to share just one of your branches, a few of them, or all of them. This tends to free people to try new ideas without worrying about having to plan how and when they are going to merge it in or share it with others.
+\subsection{Pequeño y rápido}
+\label{sec:smallandfast}
 
-There are ways to accomplish some of this with other systems, but the work involved is much more difficult and error-prone. Git makes this process incredibly easy and it changes the way most developers work when they learn it. 
+Git es rápido. Con Git, practicamente todas las operaciones son realizadas localmente, dandole una gran ventaja sobre los \gls{scv} centralizados que constantemente tienen que comunicarse con el servidor.
+
+Git fue hecho para trabajar con el núcleo Linux, lo que sifnifica que tiene que trabajar eficientemente con repositorios de código muy grandes desde el primer día. Git está escrito en \textbf{C}, reduciendo la carga de ejecución asociada a lenguajes de alto nivel. La velocidad y el rendimiento son algunos de los principios seguidos desde los inicios de su diseño.
+
+\subsection{Distribuido}
+\label{sec:distributed}
+
+Una de las mejores características de cualquier \gls{scvd}, Git incluído, es que es precisamente ``distribuido''. Esto significa que en lugar de hacer un ``checkout'' de la punta actual del código fuente, se hace un ``clon'' de todo el repositorio.
+
+\subsubsection{Múltiples copias de seguridad}
+\label{sec:multiplebackups}
+
+Esto significa que aún si se utiliza un flujo de trabajo centralizado, cada usuario es esencialmente una copia de seguridad del servidor principal. Cada una de estas copias puede ser utilizada para sustituir el servidor central en caso de fallo o corrupción. En efecto, no hay un solo punto de fallo utilizando Git, a no ser que sólo se use una copia del repositorio.
+
+\clearpage
+\subsubsection{Cualquier flujo de trabajo}
+\label{sec:anyworkflow}
+
+Debido a la naturaleza distribuida de Git y un magnífico sistema de ramificación, un número casi infinito de flujos de trabajo se puede implementar con relativa facilidad.
+
+
+
+\paragraph{Flujo de trabajo estilo Subversion:}
+
+
+\begin{wrapfigure}{r}{0.65\textwidth}
+  \begin{center}
+    \includegraphics[width=.6\textwidth,keepaspectratio=true]{workflow-a.png}
+  \end{center}
+  \caption{Modelo centralizado estilo Subversion.}
+\end{wrapfigure}
+Un flujo de trabajo centralizado es bastante común, especialmente para personas cambiando desde sistemas centralizados. Git no permite que se ``empuje''(hacer \textbf{\emph{push}}) al servidor si alguien lo ha hecho desde la última vez que se descargó de él, por lo que un modelo centralizado donde todos los desarrolladores hacen \textbf{\emph{push}} al mismo servidor funciona bien.
+
+% \begin{figure}[hb]
+%   \caption{Modelo centralizado estilo Subversion.}
+%   \centering
+%   \includegraphics[width=.6\textwidth,keepaspectratio=true]{workflow-a.png}
+% \end{figure}
+
+\paragraph{Flujo con gerente integrador:}
+
+
+\begin{wrapfigure}{r}{0.65\textwidth}
+  \begin{center}
+  \includegraphics[width=.6\textwidth,keepaspectratio=true]{workflow-b.png}
+  \end{center}
+  \caption{Modelo con gerente integrador.}
+\end{wrapfigure}
+Otro flujo de trabajo, común en Git, consiste en un gestor de integración - una sola persona que es quien puede adicionar al repositorio ``bendecido''(el \emph{repositorio principal del sistema}). Un número de desarrolladores luego de clonar ese repositorio, empujan a sus propios repositorios independientes , y piden al integrador que revise y fusione sus cambios a ese repositorio. Este es el tipo de modelo de desarrollo visto a menudo con software libre o repositorios en \textbf{Github}.
+
+
+%\begin{figure}[hb]
+%  \caption{Modelo centralizado estilo Subversion.}
+%  \centering
+%\end{figure}
+
+\paragraph{Flujo basado en un dictador y sus lugartenientes:}
+
+
+
+\begin{wrapfigure}{r}{0.65\textwidth}
+  \begin{center}
+  \includegraphics[width=.6\textwidth,keepaspectratio=true]{workflow-c.png}
+  \end{center}
+  \caption{Modelo con dictador y lugartenientes.}
+\end{wrapfigure}
+Para proyectos más grandes, un flujo de trabajo de desarrollo como el del núcleo Linux es a menudo eficaz. En este modelo, algunas
+personas ( ``lugartenientes'' ) están a cargo de un subsistema específico del proyecto y fusionan todos los cambios relacionados con ese subsistema. Otra integrador (el ``dictador'' ) puede extraer los cambios sólo de sus lugartenientes (luego que estos los revisaron e integraron a sus subsistemas) y luego empujar al repositorio ``bendecido'' de dónde todo el mundo usa para trabajar.
+
+
+% \begin{figure}[hb]
+%   \caption{Modelo centralizado estilo Subversion.}
+%   \centering
+%   \includegraphics[width=.6\textwidth,keepaspectratio=true]{workflow-c.png}
+% \end{figure}
 
 
 \glsaddall
