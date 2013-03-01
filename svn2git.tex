@@ -267,6 +267,45 @@ personas ( ``lugartenientes'' ) están a cargo de un subsistema específico del 
 % \end{figure}
 
 
+\clearpage
+
+\subsubsection{Seguridad de los datos}
+\label{sec:dataassurance}
+
+
+El modelo de datos que usa Git garantiza la integridad criptográfica de cada parte de su proyecto. A cada archivo y revisión en el historial se le realiza una suma de comprobación (suma de chequeo) y es recuperado por medio de su suma de chequeo al recrear el directorio. Por esto es imposible sacar nada de Git que no sean los bits exactos que se le ponen dentro.
+
+
+\begin{wrapfigure}{r}{0.65\textwidth}
+  \begin{center}
+  \includegraphics[width=.6\textwidth,keepaspectratio=true]{assurance.png}
+  \end{center}
+  \caption{Sumas de chequeo.}
+\end{wrapfigure}
+
+
+También es imposible cambiar cualquier archivo, la fecha, el mensaje con que se adicionó al historial, o cualquier otro dato en un repositorio Git sin cambiar los identificadores de todo lo que ocurrió después de adicionarlo. Esto significa que si usted tiene un ID de un ``\textbf{commit}'' (una revisión), puede estar seguro no sólo de que el proyecto es exactamente el mismo que cuando se adicionó, sino que nada en su historial cambió.
+
+La mayoría de los \gls{scv} centralizados no proveen esta integridad de forma predeterminada.
+
+\subsubsection{Zona de espera}
+\label{sec:stagingarea}
+
+A diferencia de los otros sistemas, Git tiene algo que se llama la ``zona de espera'' o ``índice''. Esta es una zona intermedia en la que los \textbf{\emph{commits}} pueden ser formateados y o revisados antes de terminar de adicionarlos como una revisión en el historial.
+
+
+\begin{wrapfigure}{r}{0.65\textwidth}
+  \begin{center}
+  \includegraphics[width=.6\textwidth,keepaspectratio=true]{index1.png}
+  \end{center}
+  \caption{Zona de espera.}
+\end{wrapfigure}
+
+
+Una cosa que distingue a Git de otras herramientas es que es posible para organizar rápidamente las modificaciones en los archivos, sin adicionar todas las modificaciones hechas en una sola revisión en el historial, permitiendo organizar mejor los cambios adicionados, por ejemplo, según funcionalidad o módulo.
+
+
+
 \glsaddall
 \printglossaries
 
