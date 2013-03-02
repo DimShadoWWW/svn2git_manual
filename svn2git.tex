@@ -319,7 +319,39 @@ Por supuesto, Git también puede olvidar esta funcionalidad si no se desea este 
 \chapter{Comenzando con Git}
 \label{chap:gettingstarted}
 
+\section{Lo esencial de Git}
+\label{sec:gitbasics}
 
+Entonces, ¿qué es Git en pocas palabras? Esta es una sección importante de absorber, porque si se entiende lo que es Git y los
+fundamentos de cómo funciona, podrá utilizar Git de uan forma màs eficaz y probablemente será mucho más fácil. A medida que se aprenda Git, se debe intentar limpiar la mente de las cosas que se pueden conocer de otros \gls{scv}, tales como Subversion y Perforce , lo cual ayudará a evitar confusiones sutiles cuando se utiliza la herramienta. Git almacena información y piensa en forma muy diferente a los otros sistemas, a pesar de que la interfaz de usuario es bastante similar; entender esas diferencias ayudará a evitar que se vuelva confuso mientras se esté utilizando.
+
+\section{Imágenes del contenido, no las diferencias}
+\label{sec:snapshotsnotdifferences}
+
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \begin{center}
+  \includegraphics[width=.6\textwidth,keepaspectratio=true]{18333fig0104-tn.png}
+  \end{center}
+  \caption{Otros sistemas tienden a almacenar datos como cambios a una versión base de cada archivo.}
+  \label{otrosvcs}
+\end{wrapfigure}
+
+
+La principal diferencia entre Git y cualquier otro \gls{scv} (Subversion y amigos incluidos) es la forma en Git piensa en sus datos. Conceptualmente, la mayoría de los otros sistemas almacena información como una lista de los cambios basados en ficheros. Estos sistemas (CVS, Subversion, Perforce , Bazaar, y así sucesivamente) pensan en la información que almacenan como un conjunto de archivos y los cambios hechos a cada fichero en el tiempo, como se ilustra en la Figure~\ref{otrosvcs}.
+
+
+\begin{wrapfigure}{r}{0.65\textwidth}
+  \begin{center}
+  \includegraphics[width=.6\textwidth,keepaspectratio=true]{18333fig0105-tn.png}
+  \end{center}
+  \caption{Git almacena los datos como imágenes del proyecto a través del tiempo.}
+  \label{gitsnapshot}
+\end{wrapfigure}
+Git no piensa ni almacene sus datos de esta forma. En su lugar, Git modela sus datos más como un conjunto de instantáneas de un mini
+sistema de archivos. Cada vez que se adiciona, o guarda el estado de el proyecto en Git, básicamente se toma una fotografía de sus archivos en ese momento y almacena una referencia a esa instantánea. Para ser eficaz, si los archivos no se han modificado, Git no almacena el archivo de nuevo, sólo un enlace al archivo anterior idéntico que ya ha almacenado. Git modela sus datos más como en la Figura \href{gitsnapshot}.
+
+This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
 
 
 \glsaddall
