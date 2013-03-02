@@ -269,7 +269,7 @@ personas ( ``lugartenientes'' ) están a cargo de un subsistema específico del 
 
 \clearpage
 
-\subsubsection{Seguridad de los datos}
+\subsection{Seguridad de los datos}
 \label{sec:dataassurance}
 
 
@@ -288,11 +288,9 @@ También es imposible cambiar cualquier archivo, la fecha, el mensaje con que se
 
 La mayoría de los \gls{scv} centralizados no proveen esta integridad de forma predeterminada.
 
-\subsubsection{Zona de espera}
+\clearpage
+\subsection{Zona de espera}
 \label{sec:stagingarea}
-
-A diferencia de los otros sistemas, Git tiene algo que se llama la ``zona de espera'' o ``índice''. Esta es una zona intermedia en la que los \textbf{\emph{commits}} pueden ser formateados y o revisados antes de terminar de adicionarlos como una revisión en el historial.
-
 
 \begin{wrapfigure}{r}{0.65\textwidth}
   \begin{center}
@@ -302,7 +300,25 @@ A diferencia de los otros sistemas, Git tiene algo que se llama la ``zona de esp
 \end{wrapfigure}
 
 
-Una cosa que distingue a Git de otras herramientas es que es posible para organizar rápidamente las modificaciones en los archivos, sin adicionar todas las modificaciones hechas en una sola revisión en el historial, permitiendo organizar mejor los cambios adicionados, por ejemplo, según funcionalidad o módulo.
+A diferencia de los otros sistemas, Git tiene algo que se llama la ``zona de espera'' o ``índice''. Esta es una zona intermedia en la que los \textbf{\emph{commits}} pueden ser formateados y o revisados antes de terminar de adicionarlos como una revisión en el historial.
+
+Una cosa que distingue a Git de otras herramientas es que es posible para organizar rápidamente las modificaciones en los archivos, sin adicionar todas las modificaciones hechas en una sola revisión en el historial.
+
+\begin{wrapfigure}{r}{0.65\textwidth}
+  \begin{center}
+  \includegraphics[width=.6\textwidth,keepaspectratio=true]{index2.png}
+  \end{center}
+  \caption{Zona de espera.}
+\end{wrapfigure}
+
+Esto le permite poner en escena sólo partes de un archivo modificado. Atrás han quedado los días de hacer dos modificaciones lógicamente no relacionadas en uno o varios archivos, antes de darse cuenta de que se ha olvidado adicionar una de ellas al historial. Ahora se puede incluir sólo uno de cambios realizados al archivo, en una revisión y luego adicionar otro cambio en otra revisión. Esta función se puede utilizar para múltiples cambios, según sea necesario, permitiendo organizar mejor los cambios adicionados, por ejemplo, según funcionalidad o módulo.
+
+Por supuesto, Git también puede olvidar esta funcionalidad si no se desea este tipo de control, sólo adicionando ``$-$a'' al comando, adiciona \textbf{TODOS} los cambios realizados a los archivos conocidos por Git (todos los que han sido adicionados al historial en la revisión anterior); haciendo que Git se comporte como Subversion al realizar un \textbf{commit}.
+
+
+\chapter{Comenzando con Git}
+\label{chap:gettingstarted}
+
 
 
 
