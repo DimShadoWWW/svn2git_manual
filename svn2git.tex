@@ -63,34 +63,6 @@ bookmarksopen=true]{hyperref}
 \usepackage[toc,nonumberlist]{glossaries}
 \makeglossaries
 
-%\begin{titlepage}
-%\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
-%\center % Center everything on the page
-%
-%%\textsc{\LARGE University Name}\\[1.5cm] % Name of your university/college
-%%\textsc{\Large Major Heading}\\[0.5cm] % Major heading such as course name
-%%\textsc{\large Minor Heading}\\[0.5cm] % Minor heading such as course title
-%\HRule \\[0.4cm]
-%{ \huge \bfseries Git}\\[0.4cm] % Title of your document
-%\HRule \\[1.5cm]
-%\begin{minipage}{0.4\textwidth}
-%\begin{flushleft} \large
-%\emph{Author:}\\
-%Ing. Anielkis \textsc{Herrera} % Your name
-%\end{flushleft}
-%\end{minipage}
-%~
-%\begin{minipage}{0.4\textwidth}
-%\begin{flushright} \large
-%%\emph{Supervisor:} \\
-%%Dr. James \textsc{Smith} % Supervisor's Name
-%\end{flushright}
-%\end{minipage}\\[4cm]
-%{\large \today}\\[3cm] % Date, change the \today to a set date if you want to be precise
-%%\includegraphics{Logo}\\[1cm] % Include a department/university logo - this will require the graphicx package
-%\vfill % Fill the rest of the page with whitespace
-%\end{titlepage}
-
 \makeatletter
 \def\maketitle{%
   \null
@@ -141,7 +113,8 @@ bookmarksopen=true]{hyperref}
 
 
 \newacronym[longplural=Sistemas de Control de Versiones]{scv}{SCV}{Sistema de Control de Versiones}
-\newacronym[longplural=Sistemas de Control de Versiones Distribuido]{scvd}{SCVD}{Sistema de Control de Versiones Distribuido}
+\newacronym[longplural=Sistemas de Control de Versiones Distribuidos]{scvd}{SCVD}{Sistema de Control de Versiones Distribuido}
+\newacronym[longplural=Sistemas de Control de Versiones Centralizados]{scvc}{SCVC}{Sistema de Control de Versiones Centralizado}
 
 %\newglossaryentry{scv}
 %{
@@ -352,54 +325,94 @@ Git no piensa ni almacene sus datos de esta forma. En su lugar, Git modela sus d
 sistema de archivos. Cada vez que se adiciona, o guarda el estado de el proyecto en Git, básicamente se toma una fotografía de sus archivos en ese momento y almacena una referencia a esa instantánea. Para ser eficaz, si los archivos no se han modificado, Git no almacena el archivo de nuevo, sólo un enlace al archivo anterior idéntico que ya ha almacenado. Git modela sus datos más como en la Figura \href{gitsnapshot}.
 
 Esta es una distinción importante entre Git y casi todos los otros \gls{scv}. Hace que Git reconsidere casi todos los aspectos de control de versiones que la mayoría de los otros sistemas a copiado de la generación anterior. Esto hace que Git sea más como un mini sistema de archivos con algunas herramientas increíblemente poderosas construidas en la parte superior de la misma, en lugar de simplemente un \gls{scv}. Se verán algunos de los beneficios que obtiene al pensar en sus datos de esta manera cuando se vea la ramificación en Git.
-2.1.2. Casi cada operación es local
-La mayoría de las operaciones en Git sólo necesitan archivos y recursos locales para operar   por lo general no se necesita información desde otro ordenador de la red. Si estás acostumbrado a un \gls{scvc} donde la mayoría de las operaciones tienen esa sobrecarga de latencia de la red, este aspecto de Git te hará pensar que los dioses de la velocidad han bendecido Git con poderes no terrenales. Porque tienes toda la historia del proyecto ah mismo en el disco local, la mayoría de las operaciones parecen casi instantánea.
-Por ejemplo, para navegar por la historia del proyecto, Git no necesita salir al servidor para obtener la historia y mostrarla, sino que simplemente se lee directamente de la base de datos local. Esto significa que se ver la historia del proyecto casi al instante. Si se desea ver los cambios introducidos entre la versión actual de un archivo y el archivo de hace un mes, Git puede buscar el archivo hace un mes y hacer un cálculo de la diferencia local, en lugar de tener que pedirle a un servidor remoto la
- CAPTULO 2. COMENZANDO CON GIT información de una versión anterior del archivo, para calcularlo localmente.
+
+\subsection{Casi cada operación es local}
+\label{sec:almostlocal}
+
+
+La mayoría de las operaciones en Git sólo necesitan archivos y recursos locales para operar por lo general no se necesita información desde otro ordenador de la red. Si estás acostumbrado a un \gls{scvc} donde la mayoría de las operaciones tienen esa sobrecarga de latencia de la red, este aspecto de Git te hará pensar que los dioses de la velocidad han bendecido Git con poderes no terrenales. Porque tienes toda la historia del proyecto ah mismo en el disco local, la mayoría de las operaciones parecen casi instantánea.
+Por ejemplo, para navegar por la historia del proyecto, Git no necesita salir al servidor para obtener la historia y mostrarla, sino que simplemente se lee directamente de la base de datos local. Esto significa que se ver la historia del proyecto casi al instante. Si se desea ver los cambios introducidos entre la versión actual de un archivo y el archivo de hace un mes, Git puede buscar el archivo hace un mes y hacer un cálculo de la diferencia local, en lugar de tener que pedirle a un servidor remoto la información de una versión anterior del archivo, para calcularlo localmente.
+
 Esto también significa que hay muy poco que no se pueda hacer si se está desconectado de la red o de la VPN. Si se está en un avión, o en un tren y se quiere hacer un poco de trabajo, se puede ir haciendo modificaciones, y al llegar la una conexión de red que se desea se descargan los cambios nuevos del servidor y suben los cambios realizados localmente. Si se va a casa y no logra que funcione bien el cliente VPN, usted todavía puede trabajar. En muchos otros sistemas, hacerlo as que es imposible o doloroso. En Perforce, por ejemplo , no se puede hacer mucho cuando no se está conectado al servidor, y en Subversion y CVS, se puede editar los archivos, pero no puede confirmar (hacer commit) los cambios a la base de datos (ya que su base de datos está sin conexión, en el servidor). Esto puede no parecer un gran problema, pero puede que se sorprenda la gran diferencia que puede representar.
-2.1.3. Git tiene integridad
+
+\subsection{Git tiene integridad}
+\label{sec:integrity}
+
+
 A todo en Git, se le realiza una suma de chequeo ( checksum ) y es referenciado por esa suma de chequeo. Esto significa que es imposible cambiar el contenido de un archivo o directorio sin que Git lo note. Esta funcionalidad está incluida en Git en los más bajos niveles y es parte integral de su filosofa. Por esto no se puede perder la información en tránsito o que se produzca una corrupción de los archivos sin que Git sea capaz de detectarlo.
-El mecanismo que usa Git para esta suma de comprobación se llama hash SHA-1 . Es una cadena de 40 caracteres, compuesta de números hexadecimales (del 0 al 9 y de A a la F) y es calculada en base al contenido de un archivo o directorio en Git. Un  hash SHA-1  se algo como esto:
+El mecanismo que usa Git para esta suma de comprobación se llama hash SHA-1 . Es una cadena de 40 caracteres, compuesta de números hexadecimales (del 0 al 9 y de A a la F) y es calculada en base al contenido de un archivo o directorio en Git. Un  hash SHA-1 se algo como esto:
+
+\begin{verbatim}
 24b9da6552252987aa493b52f8696cd6d3b00373
+\end{verbatim}
+
 Se verán estos valores hash por todos lados en Git, ya que los usa mucho. De hecho, Git almacena todo no por nombre de archivo, sino utilizando el valor hash de su contenido en la base de datos de Git.
-2.1.4. Git generalmente sólo añade datos
-Cuando se realizan acciones en Git, casi todas ellas sólo añaden datos a la base de datos de Git. Es muy difícil hacer que el sistema realice una operación que no se pueda deshacer o que borre información de alguna forma. Al igual que en cualquier \gls{scv}, se pueden perder o estropear los cambios que no se hayan adicionado a Git aún (que no se le haya hecho commit), pero después de haberle hecho commit a unos cambios, es muy difícil de que esa información no se pueda recuperar, aún más difícil si se utiliza algún servidor remoto. Llevándolo aún más lejos, cuando una revisión (un commit ) se des  hace, es quitado del historial, Git no lo borra, sino que se puede recuperar mientras no se realice una limpieza en profundidad. Esto permite que se pueda experimentar libremente, sin temor a realizar
- CAPTULO 2. COMENZANDO CON GIT un daño severo al proyecto.
-2.1.5. Los tres estados
+
+\subsection{Git generalmente sólo añade datos}
+\label{sec:addata}
+
+
+Cuando se realizan acciones en Git, casi todas ellas sólo añaden datos a la base de datos de Git. Es muy difícil hacer que el sistema realice una operación que no se pueda deshacer o que borre información de alguna forma. Al igual que en cualquier \gls{scv}, se pueden perder o estropear los cambios que no se hayan adicionado a Git aún (que no se le haya hecho commit), pero después de haberle hecho commit a unos cambios, es muy difícil de que esa información no se pueda recuperar, aún más difícil si se utiliza algún servidor remoto. Llevándolo aún más lejos, cuando una revisión (un commit ) se deshace, es quitado del historial, Git no lo borra, sino que se puede recuperar mientras no se realice una limpieza en profundidad. Esto permite que se pueda experimentar libremente, sin temor a realizar un daño severo al proyecto.
+
+\subsection{Los tres estados}
+\label{sec:threestates}
+
+
 Esta es la cosa más importante a recordar acerca de Git si se quieres que el resto de su proceso de aprendizaje fluya sin problemas. Git tiene tres estados principales en que los archivos pueden residir en: commited (comprometido), modified (modificado) y staged (puesta en escena). Commited significa que los datos se almacenan de forma segura en su base de datos local. Modified significa que se ha modificado el archivo pero no lo ha hecho commit a su base de datos todavía. Y staged significa que se ha marcado un archivo modificado en su versión actual para entrar en tu próxima confirmación instantánea (próximo commit ).
+
 Figura 2.3: Directorio de trabajo, rea de preparación y directorio Git.
+
 Esto nos lleva a 3 secciones principales en un proyecto Git:
 el directorio Git : es el repositorio local de Git donde se almacenan los metadatos y la base de datos de objetos del proyecto. Esta es la parte más importante de Git, y es lo que se copia cuando se clona un repositorio desde otro equipo.
 el directorio de trabajo : es donde se encuentran los archivos de una revisión para trabajar. Estos archivos se extraen de la base de datos comprimida en el directorio Git y se coloca en el disco para que se puedan utilizar o modificar.
 el área de preparación : también llamada área intermedia , rea de cache o de puesta en escena ( staging area ) es un archivo simple, generalmente dentro del directorio Git, que almacena información acerca de lo que se hará en el próximo commit . A veces se le llama  índice , pero se está convirtiendo en estándar para referirse a l como el rea de preparación .
 Un flujo básico utilizando Git es algo como esto:
 1. Se modifican los archivos en el directorio de trabajo .
- CAPTULO 2. COMENZANDO CON GIT 2. Se organizan los archivos o modificaciones dentro de éstos que se desean adicionar, y pasándolos al área de preparación .
+2. Se organizan los archivos o modificaciones dentro de éstos que se desean adicionar, y pasándolos al área de preparación .
 3. Se hace un commit , que toma los archivos como están en el rea de preparación y almacena una instantánea permanentemente en el directorio Git, integrándola a la historia del proyecto.
 Si una versión concreta de un archivo está en el directorio de Git, se considera commited . Si se ha modificado, pero se ha añadido al rea de preparación, está staged . Y si se ha sido modificado desde que fue extraído de Git y no se pasó al rea de preparación, está modified.
-2.2. Instalando Git
-2.2.1. Linux
+
+
+\section{Instalando Git}
+\label{sec:install}
+
+
+\subsection{Linux}
+\label{sec:installlinux}
+
+
 Si se instar Git a través de paquetes binarios de las distribuciones, esto se realizar como con cualquier otro software:
  yum install git-core
  apt-get install git
 o
  aptitude install git
-2.2.2. MacOSX
+
+ \subsection{MacOSX}
+ \label{sec:installmac}
+
+ 
 Hay dos maneras fáciles de instalar Git en un Mac. La forma más fácil es usar el instalador gráfico de Git, que se puede descargar desde la página de Google Code:
 http://code.google.com/p/git-osx-installer
- CAPTULO 2. COMENZANDO CON GIT Figura 2.4: Instalador de Git para OS X.
- CAPTULO 2. COMENZANDO CON GIT La otra gran manera es instalar Git a través de MacPorts ( http://www.macports.org ). Si tienes MacPorts instalado, instalar Git a través de:
+
+Figura 2.4: Instalador de Git para OS X.
+
+
+La otra gran manera es instalar Git a través de MacPorts ( http://www.macports.org ). Si tienes MacPorts instalado, instalar Git a través de:
  sudo port install git-core +svn +doc +bashcompletion +gitweb
 No se tiene que añadir todos los extras, pero es probable que desee incluir svn, y aún más en caso de que se tenga que usar Git con repositorios de Subversion.
-2.2.3. Windows
+
+\subsection{Windows}
+\label{sec:installwindows}
+
+
 Instalar Git en Windows es muy fácil. Simplemente se descarga el archivo ejecutable de instalación desde la página de Git ( http://www.git-scm.com/ ), y se ejecuta:
- CAPTULO 2. COMENZANDO CON GIT Se deben dejar las opciones por defecto:
+ Se deben dejar las opciones por defecto:
 Figura 2.5: Se selecciona interfaz Bash (Unix) para comandos complejos
 Figura 2.6: Se acepta que se cambie automáticamente el cambio de línea
 Esta opción de cambiar automáticamente el cambio de línea, permite que en Windows se trabaje normalmente con los archivos (manteniendo el indicador de cambio de línea de Windows) y que al hacer commit se cambie automáticamente este indicador al de Linux. Al realizar un checkout , Git convertir los cambios de línea de Linux a Windows, para poder trabajar en ellos. Esto facilita la edición de código en ambos sistemas por parte de los desarrolladores.
- CAPTULO 2. COMENZANDO CON GIT Una vez instalado, se tiene una versión de línea de comandos (incluyendo un cliente SSH que será muy útil para acceder a los servidores) y la interfaz gráfica de usuario estándar.
+ Una vez instalado, se tiene una versión de línea de comandos (incluyendo un cliente SSH que será muy útil para acceder a los servidores) y la interfaz gráfica de usuario estándar.
 Nota sobre el uso en Windows: se usar, siempre que sea posible, Git con el shell que se instala (estilo Unix), que permite utilizar las complejas líneas de comando que figuran en este documento. Si usted necesita, por alguna razón, utilizar la interfaz de comandos nativa de Windows, se deben tener otras consideraciones para hacerlo, para esto consulte la documentación de Git ( http://www. git-scm.com/doc ).
- CAPTULO 2. COMENZANDO CON GIT 2.3. Configuración inicial
+ 2.3. Configuración inicial
 2.3.1. Identidad
 Los primeros pasos a realizar, es adicionar nuestros datos personales a Git; a partir de aquí, se incluirán en cada cambio que realicemos. Una información importante aquí, es que Git hace distinción, como se ver más adelante, entre los que adicionan cambios al Git y los que realizaron los cambios 1 .
 Esto se realiza de esta forma:
@@ -414,7 +427,7 @@ espejo (mirror): subclase de bare que también se mantiene sincronizado a los re
 con directorio de trabajo: es el repositorio que contiene un repositorio local y además un directorio o copia de trabajo donde se puede modificar el contenido.
 HEAD es el nombre que se le da en Git a la última revisión de una rama. Para referencias a la penúltima revisión de una rama, se puede utilizar tanto la nomenclatura HEAD1 como HEAD
 1 por ejemplo, si se está aplicando un flujo de trabajo con gerente integrador y la persona A realiza un cambio realiza commit en su Git, luego envía el commit al integrador ( persona B ), el integrador revisa el commit y lo adiciona al servidor Git principal, para el servidor principal Git, el cambio lo realizó la persona A , pero lo adicionó el integrador, manteniéndose la compartimentación en los cambios
- CAPTULO 2. COMENZANDO CON GIT 2.5. Comandos básicos de Git
+ 2.5. Comandos básicos de Git
 Figura 2.7: Operaciones principales con Git
 git init: El comando init de git permite inicializar un directorio como repositorio de git, se puede utilizar de estas formas:
 1. Para crear un directorio con copia de trabajo:
@@ -425,7 +438,7 @@ git init: El comando init de git permite inicializar un directorio como reposito
 2. Para crear un repositorio desnudo:
  cd proyecto/
  git initbare
- CAPTULO 2. COMENZANDO CON GIT git clone: El comando clone en git es utilizado para clonar repositorios, creando copias de l y se puede utilizar de estas formas:
+ git clone: El comando clone en git es utilizado para clonar repositorios, creando copias de l y se puede utilizar de estas formas:
 1. Para crear un directorio con copia de trabajo:
  git clone URL
 2. Para crear un repositorio desnudo:
@@ -439,7 +452,7 @@ git checkout: El comando checkout en git es utilizado para extraer objetos del r
  git clone -bare URL
 3. Para crear un repositorio espejo:
  git clone -mirror URL
-  CAPTULO 3. PERSONALIZANDO GIT Capítulo 3
+Capítulo 3
 Personalizando Git
 3.1. Configuración de Git
 3.1.1. Configuración básica del cliente Git
@@ -475,7 +488,7 @@ Si el repositorio Subversion ubicado en URL cumple con el estándar de crear car
 Esto crea automáticamente las ramas y los tags en Git, según están definidos en el subversion. Para especificar el nombre de los directorios, en caso de que no coincidan con los nombres en inglés, sera ejecutar esta variación del comando, especificando los nombres reales:
  git svn clone URL -T trunk -b branches -t tags
 A partir de aquí se puede continuar el desarrollo utilizando Git y luego sincronizando los cambios con el Subversion, como por ejemplo, de esta forma:
- CAPTULO 4. GIT Y SUBVERSION 1. Crear una rama propia, para desarrollo:
+Crear una rama propia, para desarrollo:
  git checkout -b work trunk
 2. Modificar y adicionar cambios al repositorio, utilizando git add y git commit según se desee.
 3. Sincronizar con el servidor de subversion remoto utilizando
@@ -490,7 +503,7 @@ git add . adiciona a git todo el contenido del directorio.
 git commit adiciona los cambios al historial de Git.
 4.2.2. Creando la copia de trabajo
 Para crear la copia o directorio de trabajo, se ejecuta: subversion: git:  svn checkout URL  git clone URL A diferencia del comando svn checkout, el de Git descarga TODO el historial del directorio subversion. Si el directorio ubicado en esa dirección cumple
- CAPTULO 4. GIT Y SUBVERSION 4.2.3. Adicionando cambios
+ 4.2.3. Adicionando cambios
 subversion: git:  svn commit  git commit -a Aquí hay que aclarar algunas cosas:
 Como se ha dicho anteriormente, el git commit adiciona cambios al repositorio local.
  Capítulo 5
