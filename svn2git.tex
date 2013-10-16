@@ -56,29 +56,35 @@ bookmarksopen=true]{hyperref}
 }
 
 \newcommand{\shellcmd}[1]{ %
+
   \colorbox{Gray}{
     \indent\indent\texttt{\footnotesize\$ #1}
   }
-  \colorbox{mygray}{
-    \indent\indent\texttt{\textbf{\footnotesize\$} #1}
-  }
+%  \colorbox{mygray}{
+%    \indent\indent\texttt{\textbf{\footnotesize\$} #1}
+%  }
+
 } 
 
 \newcommand{\rootshellcmd}[1]{
+
   \colorbox{mygray}{
     \indent\indent\texttt{\textbf{\footnotesize\#} #1}
   } 
-  \indent\indent\texttt{\footnotesize\# #1}
+%  \indent\indent\texttt{\footnotesize\# #1}
+
 } 
 
 \newcommand{\svngit}[2]{% 
+
   \begin{tabular}{| l | l |} 
     \hline subversion: & git: \\
     \hline 
     \colorbox{mygray}{\texttt{\textbf{\footnotesize\$} #1}} & \colorbox{mygray}{ \texttt{\textbf{\footnotesize\$} #2}} 
   \end{tabular}
-  % 
+
 } 
+
 \usepackage[toc,nonumberlist]{glossaries} 
 \makeglossaries 
 
@@ -189,7 +195,9 @@ Git es un \gls{scvd}, desarrollado como sistema de software libre y diseñado pa
   \caption{Sumas de chequeo.} 
 \end{wrapfigure} También es imposible cambiar cualquier archivo, la fecha, el mensaje con que se adicionó al historial, o cualquier otro dato en un repositorio Git sin cambiar los identificadores de todo lo que ocurrió después de adicionarlo. Esto significa que si usted tiene un ID de un ``\textbf{commit}'' (una revisión), puede estar seguro no sólo de que el proyecto es exactamente el mismo que cuando se adicionó, sino que nada en su historial cambió. La mayoría de los 
 \gls{scvc} no proveen esta integridad de forma predeterminada. 
+
 \clearpage 
+
 \subsection{Zona de espera} 
 \label{sec:stagingarea} 
 \begin{wrapfigure}{r}{0.65\textwidth} 
@@ -207,8 +215,11 @@ A diferencia de los otros sistemas, Git tiene algo que se llama la ``zona de esp
   \end{center} 
   \caption{Zona de espera.} 
 \end{wrapfigure}
-Esto le permite poner en escena sólo partes de un archivo modificado. Atrás han quedado los días de hacer dos modificaciones lógicamente no relacionadas en uno o varios archivos, antes de darse cuenta de que se ha olvidado adicionar una de ellas al historial. Ahora se puede incluir sólo uno de cambios realizados al archivo, en u na revisión y luego adicionar otro cambio en otra revisión. Esta función se puede utilizar para múltiples cambios, según sea necesario, permitiendo organizar mejor los cambios adicionados, por ejemplo, según funcionalidad o módulo. Por supuesto, Git también puede olvidar esta funcionalidad si no se desea este tipo de control, sólo adicionando ``$-$a'' al comando, adiciona \textbf{TODOS} los cambios realizados a los archivos conocidos por Git (todos los que han sido adicionados al historial en la revisión anterior); haciendo que Git se comporte como Subversion al realizar un 
-\textbf{commit}. 
+
+Esto le permite poner en escena sólo partes de un archivo modificado. Atrás han quedado los días de hacer dos modificaciones lógicamente no relacionadas en uno o varios archivos, antes de darse cuenta de que se ha olvidado adicionar una de ellas al historial. Ahora se puede incluir sólo uno de cambios realizados al archivo, en u na revisión y luego adicionar otro cambio en otra revisión. Esta función se puede utilizar para múltiples cambios, según sea necesario, permitiendo organizar mejor los cambios adicionados, por ejemplo, según funcionalidad o módulo.
+
+Por supuesto, Git también puede olvidar esta funcionalidad si no se desea este tipo de control, sólo adicionando ``$-$a'' al comando, adiciona \textbf{TODOS} los cambios realizados a los archivos conocidos por Git (todos los que han sido adicionados al historial en la revisión anterior); haciendo que Git se comporte como Subversion al realizar un \textbf{commit}. 
+
 \chapter{Comenzando con Git} 
 \label{chap:gettingstarted} 
 \section{Lo esencial de Git} 
@@ -242,58 +253,48 @@ Git no piensa ni almacene sus datos de esta forma. En su lugar, Git modela sus d
 \subsection{Git tiene integridad} 
 \label{sec:githasintegrity} A todo en Git, se le realiza una suma de chequeo (\emph{checksum}) y es referenciado por esa suma de chequeo. Esto significa que es imposible cambiar el contenido de un archivo o directorio sin que Git lo note. Esta funcionalidad está incluida en Git en los más bajos niveles y es parte integral de su filosofía. Por esto no s e puede perder la información en tránsito o que se produzca una corrupción de los archivos sin que Git sea capaz de detectarlo. El mecanismo que usa Git para esta suma de comprobación se llama \emph{\textbf{hash SHA-1}}. Es una cadena de 40 caracteres, compuesta de números hexadecimales (del 0 al 9 y de A a la F) y es calculada en base al contenido de un archivo o directorio en Git. Un ``\emph{hash SHA-1}'' se algo como esto: 
 
-\textbf{24b9da6552252987aa493b52f8696cd6d3b00373} Se verán estos valores hash por todos lados en Git, ya que los usa mucho. De hecho , Git almacena todo no por nombre de archivo, sino utilizando el valor hash de s u contenido en la base de datos de Git.
+\textbf{24b9da6552252987aa493b52f8696cd6d3b00373}
+
+Se verán estos valores hash por todos lados en Git, ya que los usa mucho. De hecho , Git almacena todo no por nombre de archivo, sino utilizando el valor hash de s u contenido en la base de datos de Git.
 
 \subsection{Git generalmente sólo añade datos} 
 \label{sec:Gitonlyaddsdata}
 
-Cuando se realizan acciones en Git, casi todas ellas sólo añaden datos a la base de datos de Git. Es muy difícil hacer que el sistema realice una operación que no se pueda deshacer o que borre información de alguna forma. Al igual que en cualquier 
-\gls{scv}, se pueden perder o estropear los cambios que no se hayan adicionado a Git aún (que no se le haya hecho ``commit''), pero después de haberle hecho \emph{commit} a unos cambios, es muy difícil de que esa información no se pueda recuperar, aún más difícil si se utiliza algún servidor remoto. Llevándolo aún más lejos, cuando una revisión (un \emph{commit}) se deshace, es quitado del historial, Git no lo borra, sino que se puede recuperar mientras no se realice una ``limpieza en profundidad''. Esto permite que se pueda experimentar libremente, sin temor a realizar un daño severo al proyecto. 
+Cuando se realizan acciones en Git, casi todas ellas sólo añaden datos a la base de datos de Git. Es muy difícil hacer que el sistema realice una operación que no se pueda deshacer o que borre información de alguna forma. Al igual que en cualquier \gls{scv}, se pueden perder o estropear los cambios que no se hayan adicionado a Git aún (que no se le haya hecho ``commit''), pero después de haberle hecho \emph{commit} a unos cambios, es muy difícil de que esa información no se pueda recuperar, aún más difícil si se utiliza algún servidor remoto. Llevándolo aún más lejos, cuando una revisión (un \emph{commit}) se deshace, es quitado del historial, Git no lo borra, sino que se puede recuperar mientras no se realice una ``limpieza en profundidad''. Esto permite que se pueda experimentar libremente, sin temor a realizar un daño severo al proyecto. 
 
 \subsection{Los tres estados} 
 \label{sec:threestates} Esta es la cosa más importante a recordar acerca de Git si se quieres que el resto de su proceso de aprendizaje fluya sin problemas. Git tiene tres estados principales en que los archivos pueden residir en: 
-\textbf{commited} (comprometido), 
-\ textbf{modified} (modificado) y 
-\textbf{staged} (puesta en escena). 
-\textbf{Commited} significa que los datos se almacenan de forma segura en su base de datos local. 
-\textbf{Modified} significa que se ha modificado el archivo pero no lo ha hecho 
-\textbf{commit} a su base de datos todavía. Y 
-\textbf{staged} significa que se ha marcado un archivo modificado en su versión actual para entrar en tu próxima confirmación instantánea (próximo 
-\emph{commit}). 
+\textbf{commited} (comprometido), \ textbf{modified} (modificado) y \textbf{staged} (puesta en escena). \textbf{Commited} significa que los datos se almacenan de forma segura en su base de datos local. \textbf{Modified} significa que se ha modificado el archivo pero no lo ha hecho \textbf{commit} a su base de datos todavía. Y \textbf{staged} significa que se ha marcado un archivo modificado en su versión actual para entrar en tu próxima confirmación instantánea (próximo \emph{commit}). 
+
 \begin{wrapfigure}[18]{r}{0.52\textwidth} 
   \begin{center} 
     \includegraphics[width=.45\textwidth,keepaspectratio=true]{18333fig0106-tn.png} 
   \end{center} 
   \caption{Directorio de trabajo, área de preparación y directorio Git.} 
   \label{gitsnapshot} 
-\end{wrapfigure} Esto nos lleva a 3 secciones principales en un proyecto Git: 
+\end{wrapfigure}
+
+Esto nos lleva a 3 secciones principales en un proyecto Git: 
+
 \begin{description} 
-\item [el 
-  \emph{directorio Git}:] es el 
-  \emph{repositorio local} de Git donde se almacenan los metadatos y la base de datos de objetos del proyecto. Esta es la parte más importante de Git, y es lo que se copia cuando se clona un repositorio desde otro equipo. 
-\item [el 
-  \emph{directorio de trabajo}:] es donde se encuentran los archivos de una revisión para trabajar. Estos archivos se extraen de la base de datos comprimida en el directorio Git y se coloca en el disco para que se puedan utilizar o modificar. 
-\item [el 
-  \emph{área de preparación}:] también llamada 
-  \emph{área intermedia}, 
-  \emph{área de caché} o de 
-  \emph{puesta en escena} (\textbf{staging area}) es un archivo simple, generalmente dentro del directorio Git, que almacena información acerca de lo que se hará en el próximo 
-  \textbf{commit}. A veces se le llama ``\emph{índice}'', pero se está convirtiendo en estándar para referirse a él como el 
-  \emph{área de preparación}. 
-\end{description} Un flujo básico utilizando Git es algo como esto: 
+\item [el \emph{directorio Git}:] es el \emph{repositorio local} de Git donde se almacenan los metadatos y la base de datos de objetos del proyecto. Esta es la parte más importante de Git, y es lo que se copia cuando se clona un repositorio desde otro equipo. 
+
+\item [el \emph{directorio de trabajo}:] es donde se encuentran los archivos de una revisión para trabajar. Estos archivos se extraen de la base de datos comprimida en el directorio Git y se coloca en el disco para que se puedan utilizar o modificar. 
+
+\item [el \emph{área de preparación}:] también llamada \emph{área intermedia}, \emph{área de caché} o de \emph{puesta en escena} (\textbf{staging area}) es un archivo simple, generalmente dentro del directorio Git, que almacena información acerca de lo que se hará en el próximo \textbf{commit}. A veces se le llama ``\emph{índice}'', pero se está convirtiendo en estándar para referirse a él como el \emph{área de preparación}. 
+\end{description}
+
+Un flujo básico utilizando Git es algo como esto: 
+
 \begin{enumerate} 
-\item Se modifican los archivos en el 
-  \emph{directorio de trabajo}. 
-\item Se organizan los archivos o modificaciones dentro de éstos que se desean adicionar, y pasándolos al 
-  \emph{área de preparación}.
+\item Se modifican los archivos en el \emph{directorio de trabajo}. 
+\item Se organizan los archivos o modificaciones dentro de éstos que se desean adicionar, y pasándolos al \emph{área de preparación}.
+\item Se hace un \textbf{commit}, que toma los archivos como están en el \emph{área de preparación} y almacena una instantánea permanentemente en el directorio Git, integrándola a la historia del proyecto.
+ \end{enumerate}
 
-\item Se hace un 
-  \textbf{commit}, que toma los archivos como están en el 
-  \emph{área de preparación} y almacena una instantánea permanentemente en el directorio Git, integrándola a la historia del proyecto. 
-\end{enumerate} Si una versión concreta de un archivo está en el directorio de Git, se considera 
-\emph{commited}. Si se ha modificado, pero se ha añadido al área de preparación, está 
-\emph {staged}. Y si se ha sido modificado desde que fue extraído de Git y no se pasó al área de preparación, está ``modified''. 
+Si una versión concreta de un archivo está en el directorio de Git, se considera \emph{commited}. Si se ha modificado, pero se ha añadido al área de preparación, está \emph {staged}. Y si se ha sido modificado desde que fue extraído de Git y no se pasó al área de preparación, está ``modified''.
 
+\clearpage
 \section{Instalando Git} 
 \label{sec:installgit} 
 
@@ -306,9 +307,8 @@ Cuando se realizan acciones en Git, casi todas ellas sólo añaden datos a la ba
 \subsection{MacOSX} 
 \label{sec:installmac}
 
-Hay dos maneras fáciles de instalar Git en un Mac. La forma más fácil es usar el instalador gráfico de Git, que se puede descargar desde la página de Google Code: 
-\begin{verbatim*} http://code.google.com/p/git-osx-installer 
-\end{verbatim*} 
+Hay dos maneras fáciles de instalar Git en un Mac. La forma más fácil es usar el instalador gráfico de Git, que se puede descargar desde la página de Google Code: \url{http://code.google.com/p/git-osx-installer}
+
 \begin{wrapfigure}{r}{0.65\textwidth} 
   \begin{center} 
     \includegraphics[width=.6\textwidth,keepaspectratio=true]{18333fig0107-tn.png} 
@@ -364,13 +364,11 @@ Una vez instalado, se tiene una versión de línea de comandos (incluyendo un cl
 \section{Configuración inicial} 
 \label{sec:initialsetup} 
 \subsection{Identidad} 
-\label{sec:youridentity} Los primeros pasos a realizar, es adicionar nuestros datos personales a Git; a partir de aquí, se incluirán en cada cambio que realicemos. Una información importante aquí, es que Git hace distinción, como se verá más adelante, entre los que adicionan cambios al Git y los que realizaron los cambios\footnote{por ejemplo, si se está aplicando un flujo de trabajo con gerente integrador y la persona 
-  \textbf{A} realiza un cambio realiza commit en su Git, luego envía el commit al integrador ( persona 
-  \textbf{B}), el integrador revisa el commit y lo adiciona al servidor Git principal, para el servidor principal Git, el cambio lo realizó la persona 
-  \textbf{A}, pero lo adicionó el integrador, manteniéndose la compartimentación en los cambios}. Esto se realiza de esta forma: 
+\label{sec:youridentity} Los primeros pasos a realizar, es adicionar nuestros datos personales a Git; a partir de aquí, se incluirán en cada cambio que realicemos. Una información importante aquí, es que Git hace distinción, como se verá más adelante, entre los que adicionan cambios al Git y los que realizaron los cambios\footnote{por ejemplo, si se está aplicando un flujo de trabajo con gerente integrador y la persona \textbf{A} realiza un cambio realiza commit en su Git, luego envía el commit al integrador ( persona \textbf{B}), el integrador revisa el commit y lo adiciona al servidor Git principal, para el servidor principal Git, el cambio lo realizó la persona \textbf{A}, pero lo adicionó el integrador, manteniéndose la compartimentación en los cambios}.Esto se realiza de esta forma: 
 \shellcmd{git config $--$global user.name ``John Doe''} 
-\shellcmd{git config $--$global user.email johndoe@example.com} La opción ``\emph{$--$global}'' especifica que estas configuraciones serán globales, las predeterminadas. Si se desea que un proyecto tenga otra identidad, solo habría que omitir este parámetro y ejecutar los comandos 
-\emph{dentro} del directorio d e trabajo. 
+\shellcmd{git config $--$global user.email johndoe@example.com}
+La opción ``\emph{$--$global}'' especifica que estas configuraciones serán globales, las predeterminadas. Si se desea que un proyecto tenga otra identidad, solo habría que omitir este parámetro y ejecutar los comandos \emph{dentro} del directorio de trabajo. 
+
 \chapter{Personalizando Git} 
 \label{chap:customizinggit} 
 \section{Configuración de Git} 
